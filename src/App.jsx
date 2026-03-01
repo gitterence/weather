@@ -2,6 +2,7 @@ import bgImage from "./assets/weather-bg-image.jpeg"
 import SearchBar from "./components/SearchBar"
 import TemperatureToggle from "./components/TemperatureToggle"
 import LoadingSpinner from "./components/LoadingSpinner"
+import ErrorMessage from "./components/ErrorMessage"
 
 function App() {
   return (
@@ -36,7 +37,7 @@ function App() {
 
           {/* Main Content */}
           <div className="space-y-8">
-            {/* Conditional Render Weather */}
+            {/* Conditional Render Loading Spinner */}
             <div className="flex justify-center">
               <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
                 <LoadingSpinner />
@@ -45,6 +46,12 @@ function App() {
                 </p>
               </div>
             </div>
+
+            {/* Conditional Render Error Message */}
+            <div className="max-w-2xl mx-auto">
+              <ErrorMessage />
+            </div>
+
           </div>
 
 
