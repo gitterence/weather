@@ -1,6 +1,7 @@
 import bgImage from "./assets/weather-bg-image.jpeg"
 import SearchBar from "./components/SearchBar"
 import TemperatureToggle from "./components/TemperatureToggle"
+import LoadingSpinner from "./components/LoadingSpinner"
 
 function App() {
   return (
@@ -31,9 +32,22 @@ function App() {
               <SearchBar />
               <TemperatureToggle />
             </div>
-
-
           </div>
+
+          {/* Main Content */}
+          <div className="space-y-8">
+            {/* Conditional Render Weather */}
+            <div className="flex justify-center">
+              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
+                <LoadingSpinner />
+                <p className="text-white/80 text-center mt-4 font-medium animate-pulse">
+                  Loading weather data...
+                </p>
+              </div>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>
