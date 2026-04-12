@@ -21,10 +21,9 @@ function App() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="mb-8">
-              <h1 className="text-5xl md:text-5xl font-bold text-white mb-4 drop-shadow-2xl tracking-tight">
-                Weather{" "}
-                <span className="bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Pro
+              <h1 className="text-5xl md:text-5xl font-bold mb-4 drop-shadow-xl tracking-tight">
+                <span className="bg-linear-to-r from-sky-200 to-blue-400 bg-clip-text text-transparent">
+                  Sky Lite
                 </span>
               </h1>
               <p className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
