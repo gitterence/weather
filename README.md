@@ -1,16 +1,50 @@
-# React + Vite
+# Sky Lite ⛅️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sky Lite is a minimalistic weather application focused on providing weather updates in a relaxed and elegant user interface.
 
-Currently, two official plugins are available:
+## 🛠 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Framework**: [React 19](https://react.dev/)
+- **Bundler**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS (v4)](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
 
-## React Compiler
+##  For Development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Prerequisites
 
-## Expanding the ESLint configuration
+Make sure you have [Node.js](https://nodejs.org/) installed (version 24+ recommended).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Installation
+
+1. Clone the repository to local directory:
+   ```bash
+   git clone <this-repository-url>
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd weather
+   ```
+
+3. Install the necessary dependencies:
+   ```bash
+   nvm use
+   npm install
+   ```
+
+### Running the App
+
+1. Start the local development server:
+   ```bash
+   npm run dev
+   ```
+
+2. Open your browser and visit the local link provided by Vite (usually `http://localhost:5173/`).
+
+### Building for Production
+
+To create an optimized production build:
+```bash
+npm run build
+```
