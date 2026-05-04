@@ -5,9 +5,12 @@ import LoadingSpinner from "./components/LoadingSpinner"
 import ErrorMessage from "./components/ErrorMessage"
 import WeatherCard from "./components/WeatherCard"
 import WeatherForecast from "./components/WeatherForecast"
+import { useWeather } from "./hooks/useWeather"
 
 
 function App() {
+  const { currentWeather, forecast, loading, error, unit, fetchWeatherByCity, fetchWeatherByLocation, toggleUnit } = useWeather();
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Image with Overlay */}
@@ -32,41 +35,45 @@ function App() {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-6 mb-12">
-              {/* <SearchBar /> */}
-              <TemperatureToggle />
+              <SearchBar onSearch={fetchWeatherByCity} onLocationSearch={fetchWeatherByLocation} isLoading={loading} />
+              <TemperatureToggle unit={unit} onToggle={toggleUnit} />
             </div>
           </div>
 
           {/* Main Content */}
           <div className="space-y-8">
             {/* Conditional Render Loading Spinner */}
-            {/* <div className="flex justify-center">
-              <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
-                <LoadingSpinner />
-                <p className="text-white/80 text-center mt-4 font-medium animate-pulse">
-                  Loading weather data...
-                </p>
+            {/* {loading && (
+              <div className="flex justify-center">
+                <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
+                  <LoadingSpinner />
+                  <p className="text-white/80 text-center mt-4 font-medium animate-pulse">
+                    Loading weather data...
+                  </p>
+                </div>
               </div>
-            </div> */}
+            )} */}
 
             {/* Conditional Render Error Message */}
-            {/* <div className="max-w-2xl mx-auto">
-              <ErrorMessage />
-            </div> */}
+            {error && (
+              <div className="max-w-2xl mx-auto">
+                <ErrorMessage />
+              </div>
+            )}
 
             {/* Conditional Render Weather Data*/}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-              <div className="xl:col-span-2">
-                <WeatherCard />
+            {currentWeather && !loading && (
+              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                <div className="xl:col-span-2">
+                  <WeatherCard />
+                </div>
+                <div className="xl:col-span-1">
+                  {/* Conditional Render Forecast Data */}
+                  {forecast && (<WeatherForecast />)}
+                </div>
               </div>
-              <div className="xl:col-span-1">
-                {/* Conditional Render */}
-                <WeatherForecast />
+            )}
 
-
-              </div>
-
-            </div>
           </div>
         </div>
       </div>
