@@ -51,7 +51,7 @@ function App() {
 
           {/* Main Content */}
           <div className="space-y-8">
-            {/* Conditional Render Loading Spinner */}
+            {/* Render Loading Spinner */}
             {loading && (
               <div className="flex justify-center">
                 <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
@@ -63,21 +63,21 @@ function App() {
               </div>
             )}
 
-            {/* Conditional Render Error Message */}
+            {/* Render Error Message */}
             {error && !loading && (
               <div className="max-w-2xl mx-auto">
                 <ErrorMessage message={error} onRetry={handleRetry} />
               </div>
             )}
 
-            {/* Conditional Render Weather Data*/}
+            {/* Render Weather Data*/}
             {currentWeather && !loading && (
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
                 <div className="xl:col-span-2">
-                  <WeatherCard />
+                  <WeatherCard weather={currentWeather} unit={unit} />
                 </div>
                 <div className="xl:col-span-1">
-                  {/* Conditional Render Forecast Data */}
+                  {/* Render Forecast Data */}
                   {forecast && (<WeatherForecast />)}
                 </div>
               </div>

@@ -1,6 +1,56 @@
-import { MapPin, Sunrise, Sunset } from "lucide-react";
+import {
+    MapPin, Sunrise, Sunset,
+    Thermometer, Droplets, Eye, Gauge, Wind, Compass
+} from "lucide-react";
+import {
+    getWeatherIcon, formatTemperature, formatTime, formatDate,
+    getWindDirection, getLocalTimeAsSeconds, formatCityTime
+} from "../utils/weather-utils"
 
-function WeatherCard() {
+const getWeatherStats = (weather, unit) => [
+    {
+        icon: Thermometer,
+        label: "Feels Like",
+        value: `${formatTemperature(weather.main.feels_like, unit)}°${unit}`,
+        color: "text-rose-200",
+    },
+    {
+        icon: Droplets,
+        label: "Humidity",
+        value: `${weather.main.humidity}%`,
+        color: "text-cyan-300",
+    },
+    {
+        icon: Eye,
+        label: "Visibility",
+        value: `${(weather.visibility / 1000).toFixed(1)} km`,
+        color: "text-amber-200",
+    },
+    {
+        icon: Gauge,
+        label: "Pressure",
+        value: `${weather.main.pressure} hPa`,
+        color: "text-purple-300"
+    },
+    {
+        icon: Wind,
+        label: "Wind Speed",
+        value: `${weather.wind.speed.toFixed(1)} m/s`,
+        color: "text-green-300",
+    },
+    {
+        icon: Compass,
+        label: "Wind Dir",
+        value: getWindDirection(weather.wind.deg),
+        color: "text-teal-300",
+    },
+];
+
+function WeatherCard({ weather, unit }) {
+    const WeatherIconComponent = getWeatherIcon(weather.weather[0].main);
+    const weatherStats = getWeatherStats(weather, unit);
+
+
     return (
         <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl 
         p-8 shadow-2xl hover:bg-white/15 transition-all duration-500">
@@ -11,17 +61,20 @@ function WeatherCard() {
                         <MapPin className="w-5 h-5 text-white/80" />
                     </div>
                     <div>
-                        <h2 className="text-white font-semibold text-lg">Weather Name</h2>
-                        <p className="text-white/60 text-sm">Weather Country</p>
+                        <h2 className="text-white font-semibold text-lg">{weather.name}</h2>
+                        <p className="text-white/60 text-sm">{weather.sys.country}</p>
                     </div>
                 </div>
 
                 <div className="text-right">
+                    {/* Display Current Date */}
                     <div className="text-white/70 text-sm">
-                        {/* Display Dynamic Date */}
+                        {formatDate(getLocalTimeAsSeconds(weather.timezone), { weekday: "long" })}
                     </div>
+
+                    {/* Display Current Time */}
                     <div className="text-white/50 text-xs">
-                        {/* Display Dynamic Time */}
+                        {formatTime(getLocalTimeAsSeconds(weather.timezone))}
                     </div>
                 </div>
             </div>
@@ -30,68 +83,77 @@ function WeatherCard() {
             <div className="flex items-center justify-between mb-10">
                 <div className="flex-1">
                     <div className="text-7xl font-bold text-white mb-3 tracking-tight">
-                        Main Temp
+                        {formatTemperature(weather.main.temp, unit)}°
                     </div>
                     <div className="text-white/90 text-xl capitalize mb-2 font-medium">
-                        Weather Description
+                        {weather.weather[0].description}
                     </div>
                     <div className="flex items-center space-x-4 text-white/60 text-sm">
-                        <span>Highest Temperature</span>
-                        <span>Lowest Temperature</span>
+                        <span>Highest: {formatTemperature(weather.main.temp_max, unit)}°</span>
+                        <span>Lowest: {formatTemperature(weather.main.temp_min, unit)}°</span>
                     </div>
                 </div>
                 <div className="text-white/90 transform hover:scale-110 
                 transition-transform duration-300">
                     {/* Display Weather Icon */}
+                    <WeatherIconComponent size={100} className="drop-shadow-2xl animate-pulse" />
                 </div>
             </div>
 
             {/* Weather Stats */}
             <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 
-                hover:bg-white/10 transition-all duration-300 group">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <div className="p-2 rounded-full bg-white/10 
-                        group-hover:bg-white/20 transition-all">
-                            {/* Dynamic Icons */}
+                {/* Stats Grid */}
+                {weatherStats.map((stat, index) => (
+                    <div
+                        key={index}
+                        className="bg-white/5 backdrop-blur-sm rounded-2xl p-4
+                        hover:bg-white/10 transition-all duration-300 group">
+                        <div className="flex items-center space-x-3 mb-2">
+                            <div className={`p-2 rounded-full ${stat.color} bg-white/10
+                                group-hover:bg-white/20 transition-all`}>
+                                <stat.icon className="w-5 h-5" />
+                            </div>
+                            <span className="text-white/70 text-sm font-medium">{stat.label}</span>
                         </div>
-                        <span className="text-white/70 text-sm font-medium">Stats Label</span>
+                        <div className="text-white font-semibold text-lg pl-11">
+                            {stat.value}
+                        </div>
                     </div>
-                    <div className="text-white font-semibold text-lg pl-11">
-                        Stats Value
-                    </div>
-                </div>
+                ))}
+
             </div>
 
-            {/* Sum Time */}
+            {/* Sunrise/Sunset Time */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="bg-linear-to-r from-orange-500/20 to-yellow-500/20 
-                backdrop-blur-sm rounded-2xl p-4 border border-orange-400/20">
+                backdrop-blur-sm rounded-2xl p-4 border border-orange-400/20
+                hover:from-orange-500/30 hover:to-yellow-500/30 transition-all duration-300 group">
                     <div className="flex items-center space-x-3 mb-2">
-                        <div className="p-2 bg-orange-400/20 rounded-full">
+                        <div className="p-2 bg-orange-400/20 rounded-full
+                        group-hover:bg-orange-400/40 transition-all">
                             <Sunrise className="w-4 h-4 text-orange-300" />
                         </div>
                         <span className="text-white/80 text-sm font-medium">Sunrise</span>
                     </div>
                     <div className="text-white font-semibold text-lg pl-11">
-                        {/* Dynamic Content */}
+                        {formatCityTime(weather.sys.sunrise, weather.timezone)}
                     </div>
                 </div>
 
                 <div className="bg-linear-to-r from-purple-500/20 to-pink-500/20 
-                backdrop-blur-sm rounded-2xl p-4 border border-purple-400/20">
+                backdrop-blur-sm rounded-2xl p-4 border border-purple-400/20
+                hover:from-purple-500/30 hover:to-pink-500/30 transition-all duration-300 group">
                     <div className="flex items-center space-x-3 mb-2">
-                        <div className="p-2 bg-purple-400/20 rounded-full">
+                        <div className="p-2 bg-purple-400/20 rounded-full
+                        group-hover:bg-purple-400/40 transition-all">
                             <Sunset className="w-4 h-4 text-purple-300" />
                         </div>
                         <span className="text-white/80 text-sm font-medium">Sunset</span>
                     </div>
                     <div className="text-white font-semibold text-lg pl-11">
-                        {/* Dynamic Content */}
+                        {formatCityTime(weather.sys.sunset, weather.timezone)}
                     </div>
                 </div>
-
-
             </div>
         </div>
     )
