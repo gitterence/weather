@@ -11,6 +11,15 @@ import { useWeather } from "./hooks/useWeather"
 function App() {
   const { currentWeather, forecast, loading, error, unit, fetchWeatherByCity, fetchWeatherByLocation, toggleUnit } = useWeather();
 
+  const handleRetry = () => {
+    if (currentWeather) {
+      fetchWeatherByCity(currentWeather.name)
+    } else {
+      fetchWeatherByCity("Cupertino")
+    }
+
+  };
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background Image with Overlay */}
@@ -43,7 +52,7 @@ function App() {
           {/* Main Content */}
           <div className="space-y-8">
             {/* Conditional Render Loading Spinner */}
-            {/* {loading && (
+            {loading && (
               <div className="flex justify-center">
                 <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
                   <LoadingSpinner />
@@ -52,12 +61,12 @@ function App() {
                   </p>
                 </div>
               </div>
-            )} */}
+            )}
 
             {/* Conditional Render Error Message */}
-            {error && (
+            {error && !loading && (
               <div className="max-w-2xl mx-auto">
-                <ErrorMessage />
+                <ErrorMessage message={error} onRetry={handleRetry} />
               </div>
             )}
 
