@@ -33,13 +33,13 @@ function App() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="mb-8">
-              <h1 className="text-5xl md:text-5xl font-bold mb-4 drop-shadow-xl tracking-tight">
-                <span className="bg-linear-to-r from-sky-200 to-blue-400 bg-clip-text text-transparent">
-                  Sky Lite
+              <h1 className="text-5xl md:text-6xl font-black mb-4 drop-shadow-2xl tracking-tighter">
+                <span className="bg-linear-to-r from-sky-200 to-blue-400 bg-clip-text text-transparent pb-1">
+                  SkyLite
                 </span>
               </h1>
-              <p className="text-white/80 text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-                Get the latest weather updates for any location around the world.
+              <p className="text-white/80 text-lg md:text-xl font-medium mb-8 max-w-2xl mx-auto leading-relaxed">
+                Get the latest weather updates for any location around the world
               </p>
             </div>
 
@@ -78,7 +78,7 @@ function App() {
                 </div>
                 <div className="xl:col-span-1">
                   {/* Render Forecast Data */}
-                  {forecast && (<WeatherForecast />)}
+                  {forecast && (<WeatherForecast forecastData={forecast} unit={unit} />)}
                 </div>
               </div>
             )}
