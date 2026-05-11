@@ -76,7 +76,7 @@ function App() {
             {currentWeather && !loading && (
               <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
                 <div className="xl:col-span-2">
-                  <WeatherCard weather={currentWeather} unit={unit} />
+                  <WeatherCard weather={currentWeather} forecast={forecast} unit={unit} />
                 </div>
                 <div className="xl:col-span-1">
                   {/* Render Forecast Data */}

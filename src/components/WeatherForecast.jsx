@@ -1,4 +1,4 @@
-import { Calendar, Droplet } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { formatDate, formatTemperature, getWeatherIcon } from "../utils/weather-utils";
 
 const processDailyForecasts = (list) => {
@@ -62,21 +62,12 @@ function WeatherForecast({ forecastData, unit }) {
                                 <span className="text-white/50 text-[10px] sm:text-xs font-medium uppercase tracking-wider">{dateStr}</span>
                             </div>
 
-                            {/* 2. Center: Icon & POP */}
+                            {/* 2. Center: Icon */}
                             <div className="flex items-center flex-1 min-w-0 px-2 sm:px-4">
                                 <div className="flex flex-row items-center">
                                     <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 shrink-0 bg-white/5 rounded-full border border-white/10">
                                         <IconComponent size={20} className="text-white sm:w-6 sm:h-6" />
                                     </div>
-
-                                    {item.pop > 0 && (
-                                        <div className="ml-2 sm:ml-3 whitespace-nowrap">
-                                            <span className="flex items-center text-blue-400 text-[10px] sm:text-[11px] font-bold">
-                                                <Droplet size={10} className="mr-0.5 sm:w-3 sm:h-3" />
-                                                {Math.round(item.pop * 100)}%
-                                            </span>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
 

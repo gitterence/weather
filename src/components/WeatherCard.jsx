@@ -1,13 +1,13 @@
 import {
     MapPin, Sunrise, Sunset,
-    Thermometer, Droplets, Eye, Gauge, Wind, Compass
+    Thermometer, Droplets, Eye, CloudRain, Wind, Compass
 } from "lucide-react";
 import {
     getWeatherIcon, formatTemperature, formatTime, formatDate,
-    getWindDirection, getLocalTimeAsSeconds, formatCityTime
+    getWindDirection, getLocalTimeAsSeconds, formatCityTime, formatCityDate
 } from "../utils/weather-utils"
 
-const getWeatherStats = (weather, unit) => [
+const getWeatherStats = (weather, unit, pop) => [
     {
         icon: Thermometer,
         label: "Feels Like",
@@ -27,10 +27,10 @@ const getWeatherStats = (weather, unit) => [
         color: "text-amber-200",
     },
     {
-        icon: Gauge,
-        label: "Pressure",
-        value: `${weather.main.pressure} hPa`,
-        color: "text-purple-300"
+        icon: CloudRain,
+        label: "Chance of Rain",
+        value: `${Math.round(pop * 100)}%`,
+        color: "text-blue-300"
     },
     {
         icon: Wind,
@@ -46,9 +46,27 @@ const getWeatherStats = (weather, unit) => [
     },
 ];
 
-function WeatherCard({ weather, unit }) {
+function WeatherCard({ weather, forecast, unit }) {
     const WeatherIconComponent = getWeatherIcon(weather.weather[0].main);
-    const weatherStats = getWeatherStats(weather, unit);
+    
+    // Get the highest probability of precipitation (pop) for "Today" (local city time)
+    let todayPop = 0;
+    if (forecast && forecast.list && forecast.list.length > 0) {
+        const currentUtcSeconds = Date.now() / 1000;
+        const todayStr = formatCityDate(currentUtcSeconds, weather.timezone);
+        
+        const todayForecasts = forecast.list.filter(item => {
+            return formatCityDate(item.dt, weather.timezone) === todayStr;
+        });
+
+        if (todayForecasts.length > 0) {
+            todayPop = Math.max(...todayForecasts.map(item => item.pop));
+        } else {
+            todayPop = forecast.list[0].pop; // fallback if late at night
+        }
+    }
+    
+    const weatherStats = getWeatherStats(weather, unit, todayPop);
 
 
     return (
