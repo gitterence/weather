@@ -48,8 +48,8 @@ function App() {
           {/* Header */}
           <div className="text-center mb-12">
             <div className="mb-8">
-              <h1 className="text-5xl md:text-6xl font-black mb-4 drop-shadow-2xl tracking-tighter">
-                <span className="bg-linear-to-r from-sky-200 to-blue-400 bg-clip-text text-transparent pb-1 pr-2">
+              <h1 className="app-title text-5xl md:text-6xl mb-4">
+                <span>
                   SkyLite
                 </span>
               </h1>
