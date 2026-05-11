@@ -5,6 +5,7 @@ import LoadingSpinner from "./components/LoadingSpinner"
 import ErrorMessage from "./components/ErrorMessage"
 import WeatherCard from "./components/WeatherCard"
 import WeatherForecast from "./components/WeatherForecast"
+import WeatherBackground from "./components/WeatherBackground"
 import { useWeather } from "./hooks/useWeather"
 
 
@@ -22,19 +23,20 @@ function App() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Base Textured Background */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url(${bgImage})`
-        }}
+        style={{ backgroundImage: `url(${bgImage})` }}
       ></div>
+      
+      {/* Dynamic Weather Overlay & Particles */}
+      <WeatherBackground weatherCondition={currentWeather} />
       <div className="relative z-10 container mx-auto px-4 py-8 min-h-screen">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
             <div className="mb-8">
               <h1 className="text-5xl md:text-6xl font-black mb-4 drop-shadow-2xl tracking-tighter">
-                <span className="bg-linear-to-r from-sky-200 to-blue-400 bg-clip-text text-transparent pb-1">
+                <span className="bg-linear-to-r from-sky-200 to-blue-400 bg-clip-text text-transparent pb-1 pr-2">
                   SkyLite
                 </span>
               </h1>
