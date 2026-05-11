@@ -33,8 +33,22 @@ const WeatherBackground = ({ weatherCondition }) => {
                 }
             };
         }
-        // Drizzle & Rain (id 300 - 599)
-        else if (id >= 300 && id < 600) {
+        // Drizzle (id 300 - 399)
+        else if (id >= 300 && id < 400) {
+            themeClasses = 'from-slate-600 via-slate-700 to-slate-800';
+            options = {
+                particles: {
+                    color: { value: "#cbd5e1" },
+                    number: { value: 130, density: { enable: true, area: 900 } },
+                    opacity: { value: { min: 0.18, max: 0.45 } },
+                    shape: { type: "circle" },
+                    size: { value: { min: 0.6, max: 1.5 } },
+                    move: { enable: true, speed: { min: 8, max: 18 }, direction: "bottom", straight: true, outModes: "out" }
+                }
+            };
+        }
+        // Rain (id 500 - 599)
+        else if (id >= 500 && id < 600) {
             themeClasses = 'from-slate-700 via-slate-800 to-slate-900';
             options = {
                 particles: {
@@ -70,7 +84,7 @@ const WeatherBackground = ({ weatherCondition }) => {
                     number: { value: 28, density: { enable: true, area: 1000 } },
                     opacity: { value: { min: 0.06, max: 0.18 } },
                     shape: { type: "circle" },
-                    size: { value: { min: 18, max: 80 } },
+                    size: { value: { min: 12, max: 48 } },
                     move: { enable: true, speed: { min: 0.12, max: 0.45 }, direction: "right", random: false, straight: false, outModes: "out" }
                 }
             };
@@ -81,11 +95,11 @@ const WeatherBackground = ({ weatherCondition }) => {
             options = {
                 particles: {
                     color: { value: ["#ffffff", "#dbeafe", "#cbd5e1"] },
-                    number: { value: 26, density: { enable: true, area: 1100 } },
-                    opacity: { value: { min: 0.035, max: 0.12 } },
+                    number: { value: 16, density: { enable: true, area: 1200 } },
+                    opacity: { value: { min: 0.025, max: 0.08 } },
                     shape: { type: "circle" },
-                    size: { value: { min: 36, max: 110 } },
-                    move: { enable: true, speed: { min: 0.12, max: 0.28 }, direction: "right", straight: false, outModes: "out" }
+                    size: { value: { min: 18, max: 54 } },
+                    move: { enable: true, speed: { min: 0.14, max: 0.32 }, direction: "right", straight: false, outModes: "out" }
                 }
             };
         }
