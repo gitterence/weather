@@ -2,25 +2,29 @@ import { AlertCircle, RefreshCw } from "lucide-react"
 
 function ErrorMessage({ message, onRetry }) {
     return (
-        <div className="bg-red-400 backdrop-blur-xl border border-red-400/20 rounded-3xl p-8 shadow-2xl">
-            <div className="flex items-center space-x-4 mb-4">
-                <div className="p-3 bg-red-500.20 rounded-full">
-                    <AlertCircle className="w-6 h-6 text-red-200" />
+        <div className="rounded-3xl border border-red-300/20 bg-slate-950/45 p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+            <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-red-300/25 bg-red-400/15 text-red-100">
+                    <AlertCircle className="h-6 w-6" />
                 </div>
-                <h3 className="text-xl font-semibold text-white">
-                    Something went wrong
-                </h3>
-            </div>
-            <p className="text-white/80 mb-6 leading-relaxed">{message}</p>
 
-            {onRetry && (
-                <button className="flex items-center space-x-3 bg-white/10 hover:bg-white/20 
-            border border-white/20 rounded-2xl px-6 py-3 text-white transition-all duration-300
-            hover:scale-105 hover:shadow-lg" onClick={onRetry}>
-                    <RefreshCw className="w-5 h-5" />
-                    <span className="font-medium">Try Again</span>
-                </button>
-            )}
+                <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-semibold text-white sm:text-xl">
+                        Unable to load weather
+                    </h3>
+                    <p className="mt-2 leading-relaxed text-white/70">{message}</p>
+
+                    {onRetry && (
+                        <button
+                            className="mt-6 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:border-white/30 hover:bg-white/15 focus:outline-none focus:ring-2 focus:ring-red-200/50"
+                            onClick={onRetry}
+                        >
+                            <RefreshCw className="h-4 w-4" />
+                            <span>Try Again</span>
+                        </button>
+                    )}
+                </div>
+            </div>
         </div>
     )
 }

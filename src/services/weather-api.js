@@ -28,6 +28,7 @@ export const getCurrentWeatherByCity = async (city) => {
         if (error instanceof TypeError && error.message.includes("fetch")) {
             throw new Error(`Network error. Please check your internet connection.`);
         }
+        throw error;
     }
 }
 
@@ -53,6 +54,7 @@ export const getCurrentWeatherByCoordinates = async (latitude, longitude) => {
         if (error instanceof TypeError && error.message.includes("fetch")) {
             throw new Error(`Network error. Please check your internet connection.`);
         }
+        throw error;
     }
 }
 
@@ -77,6 +79,7 @@ export const getWeatherForecast = async (city) => {
         if (error instanceof TypeError && error.message.includes("fetch")) {
             throw new Error(`Network error. Please check your internet connection.`);
         }
+        throw error;
     }
 }
 
@@ -110,5 +113,6 @@ export const searchCities = async (query) => {
         if (error instanceof TypeError && error.message.includes("fetch")) {
             throw new Error(`Network error. Please check your internet connection.`);
         }
+        throw error;
     }
 }

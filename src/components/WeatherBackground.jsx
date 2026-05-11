@@ -17,7 +17,7 @@ const WeatherBackground = ({ weatherCondition }) => {
         // Fallback to clear if no data
         const id = condition?.weather?.[0]?.id || 800;
 
-        let themeClasses = 'from-indigo-300 via-sky-300 to-blue-200';
+        let themeClasses = 'from-sky-500 via-blue-400 to-cyan-300';
         let options = null;
 
         // Thunderstorm (id 200 - 299)
@@ -92,7 +92,7 @@ const WeatherBackground = ({ weatherCondition }) => {
         }
         // Clear (id 800)
         else {
-            themeClasses = 'from-indigo-300 via-sky-300 to-blue-200';
+            themeClasses = 'from-sky-500 via-blue-400 to-cyan-300';
             options = {
                 particles: {
                     color: { value: "#ffffff" },

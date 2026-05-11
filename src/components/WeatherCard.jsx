@@ -1,13 +1,32 @@
+import { createElement } from "react";
 import {
     MapPin, Sunrise, Sunset,
     Thermometer, Droplets, Eye, CloudRain, Wind, Compass
 } from "lucide-react";
 import {
     getWeatherIcon, formatTemperature, formatTime, formatDate,
-    getWindDirection, getLocalTimeAsSeconds, formatCityTime, formatCityDate
+    getWindDirection, getLocalTimeAsSeconds, formatCityTime
 } from "../utils/weather-utils"
 
-const getWeatherStats = (weather, unit, pop) => [
+const getRainForecast = (forecast) => {
+    if (!forecast?.list?.length) {
+        return {
+            pop: 0,
+            forecastTime: null,
+        };
+    }
+
+    const currentUtcSeconds = Date.now() / 1000;
+    const nextForecast = forecast.list.find(item => item.dt >= currentUtcSeconds);
+    const rainForecast = nextForecast || forecast.list[0];
+
+    return {
+        pop: rainForecast.pop ?? 0,
+        forecastTime: rainForecast.dt,
+    };
+};
+
+const getWeatherStats = (weather, unit, rainForecast) => [
     {
         icon: Thermometer,
         label: "Feels Like",
@@ -28,9 +47,11 @@ const getWeatherStats = (weather, unit, pop) => [
     },
     {
         icon: CloudRain,
-        label: "Chance of Rain",
-        value: `${Math.round(pop * 100)}%`,
-        color: "text-blue-300"
+        label: rainForecast.forecastTime
+            ? `Rain at ${formatCityTime(rainForecast.forecastTime, weather.timezone)}`
+            : "Rain Chance",
+        value: `${Math.round(rainForecast.pop * 100)}%`,
+        color: "text-sky-400"
     },
     {
         icon: Wind,
@@ -48,25 +69,8 @@ const getWeatherStats = (weather, unit, pop) => [
 
 function WeatherCard({ weather, forecast, unit }) {
     const WeatherIconComponent = getWeatherIcon(weather.weather[0].main);
-    
-    // Get the highest probability of precipitation (pop) for "Today" (local city time)
-    let todayPop = 0;
-    if (forecast && forecast.list && forecast.list.length > 0) {
-        const currentUtcSeconds = Date.now() / 1000;
-        const todayStr = formatCityDate(currentUtcSeconds, weather.timezone);
-        
-        const todayForecasts = forecast.list.filter(item => {
-            return formatCityDate(item.dt, weather.timezone) === todayStr;
-        });
-
-        if (todayForecasts.length > 0) {
-            todayPop = Math.max(...todayForecasts.map(item => item.pop));
-        } else {
-            todayPop = forecast.list[0].pop; // fallback if late at night
-        }
-    }
-    
-    const weatherStats = getWeatherStats(weather, unit, todayPop);
+    const rainForecast = getRainForecast(forecast);
+    const weatherStats = getWeatherStats(weather, unit, rainForecast);
 
 
     return (
@@ -114,7 +118,10 @@ function WeatherCard({ weather, forecast, unit }) {
                 <div className="text-white/90 transform hover:scale-110 
                 transition-transform duration-300">
                     {/* Display Weather Icon */}
-                    <WeatherIconComponent size={100} className="drop-shadow-2xl animate-pulse" />
+                    {createElement(WeatherIconComponent, {
+                        size: 100,
+                        className: "drop-shadow-2xl animate-pulse",
+                    })}
                 </div>
             </div>
 
@@ -129,7 +136,7 @@ function WeatherCard({ weather, forecast, unit }) {
                         <div className="flex items-center space-x-3 mb-2">
                             <div className={`p-2 rounded-full ${stat.color} bg-white/10
                                 group-hover:bg-white/20 transition-all`}>
-                                <stat.icon className="w-5 h-5" />
+                                {createElement(stat.icon, { className: "w-5 h-5" })}
                             </div>
                             <span className="text-white/70 text-sm font-medium">{stat.label}</span>
                         </div>

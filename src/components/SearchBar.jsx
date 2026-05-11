@@ -31,6 +31,8 @@ function SearchBar({ onSearch, onLocationSearch, isLoading }) {
                     setShowSuggestions(true);
                 } catch (error) {
                     console.error("Error searching cities:", error);
+                    setSuggestions([]);
+                    setShowSuggestions(false);
                 } finally {
                     setSearchLoading(false);
                 }

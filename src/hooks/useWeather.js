@@ -33,7 +33,8 @@ export const useWeather = () => {
 
     const fetchWeatherByLocation = async () => {
         if (!navigator.geolocation) {
-            setError("Geolocation is not supported by your browser.")
+            setError("Geolocation is not supported by your browser.");
+            return;
         }
 
         setLoading(true);

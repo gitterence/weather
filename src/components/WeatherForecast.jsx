@@ -1,5 +1,6 @@
+import { createElement } from "react";
 import { Calendar } from "lucide-react";
-import { formatDate, formatTemperature, getWeatherIcon } from "../utils/weather-utils";
+import { formatTemperature, getWeatherIcon } from "../utils/weather-utils";
 
 const processDailyForecasts = (list) => {
     const dailyForecasts = list.reduce((acc, item) => {
@@ -66,7 +67,10 @@ function WeatherForecast({ forecastData, unit }) {
                             <div className="flex items-center flex-1 min-w-0 px-2 sm:px-4">
                                 <div className="flex flex-row items-center">
                                     <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 shrink-0 bg-white/5 rounded-full border border-white/10">
-                                        <IconComponent size={20} className="text-white sm:w-6 sm:h-6" />
+                                        {createElement(IconComponent, {
+                                            size: 20,
+                                            className: "text-white sm:w-6 sm:h-6",
+                                        })}
                                     </div>
                                 </div>
                             </div>
