@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { LocateFixed, Search, X } from "lucide-react";
 import { searchCities } from "../services/weather-api";
 
-function SearchBar({ onSearch, onLocationSearch, isLoading }) {
+function SearchBar({ onSearch, onCitySelect, onLocationSearch, isLoading }) {
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
@@ -61,8 +61,11 @@ function SearchBar({ onSearch, onLocationSearch, isLoading }) {
     };
 
     const handleSuggestionClick = (city) => {
-        const cityName = city.state ? `${city.name}, ${city.state}` : city.name;
-        onSearch(cityName);
+        if (onCitySelect && city.lat && city.lon) {
+            onCitySelect(city.lat, city.lon);
+        } else {
+            onSearch(city.name);
+        }
         setQuery("");
         setShowSuggestions(false);
     };

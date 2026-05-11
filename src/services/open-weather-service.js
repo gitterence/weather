@@ -7,12 +7,8 @@ export class OpenWeatherService {
         weatherBaseUrl = DEFAULT_WEATHER_BASE_URL,
         geoBaseUrl = DEFAULT_GEO_BASE_URL,
         units = "metric",
-        fetcher = fetch,
+        fetcher = (...args) => fetch(...args),
     }) {
-        if (!apiKey) {
-            throw new Error("OpenWeatherService requires an API key");
-        }
-
         this.apiKey = apiKey;
         this.weatherBaseUrl = weatherBaseUrl;
         this.geoBaseUrl = geoBaseUrl;
@@ -24,6 +20,10 @@ export class OpenWeatherService {
      * Core request method handling URL construction, fetch, and unified error handling.
      */
     async _request(baseUrl, endpoint, params = {}) {
+        if (!this.apiKey) {
+            throw new Error("Missing OpenWeather API key");
+        }
+
         const url = new URL(`${baseUrl}${endpoint}`);
 
         url.search = new URLSearchParams({

@@ -10,7 +10,17 @@ import { useWeather } from "./hooks/useWeather"
 
 
 function App() {
-  const { currentWeather, forecast, loading, error, unit, fetchWeatherByCity, fetchWeatherByLocation, toggleUnit } = useWeather();
+  const {
+    currentWeather,
+    forecast,
+    loading,
+    error,
+    unit,
+    fetchWeatherByCity,
+    fetchWeatherByCoordinates,
+    fetchWeatherByLocation,
+    toggleUnit,
+  } = useWeather();
   const hasWeather = Boolean(currentWeather);
   const showInitialLoading = loading && !hasWeather;
   const showWeather = hasWeather && !error;
@@ -49,7 +59,12 @@ function App() {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-center space-y-6 lg:space-y-0 lg:space-x-6 mb-12">
-              <SearchBar onSearch={fetchWeatherByCity} onLocationSearch={fetchWeatherByLocation} isLoading={loading} />
+              <SearchBar
+                onSearch={fetchWeatherByCity}
+                onCitySelect={fetchWeatherByCoordinates}
+                onLocationSearch={fetchWeatherByLocation}
+                isLoading={loading}
+              />
               <TemperatureToggle unit={unit} onToggle={toggleUnit} />
             </div>
           </div>

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { getCurrentWeatherByCity, getCurrentWeatherByCoordinates, getWeatherForecast } from "../services/weather-api";
+import {
+    getCurrentWeatherByCity,
+    getCurrentWeatherByCoordinates,
+    getWeatherForecast,
+    getWeatherForecastByCoordinates,
+} from "../services/weather-api";
 
 
 export const useWeather = () => {
@@ -31,6 +36,27 @@ export const useWeather = () => {
         }
     };
 
+    const fetchWeatherByCoordinates = async (latitude, longitude) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const [weatherData, forecastData] = await Promise.all([
+                getCurrentWeatherByCoordinates(latitude, longitude),
+                getWeatherForecastByCoordinates(latitude, longitude),
+            ]);
+
+            setCurrentWeather(weatherData);
+            setForecast(forecastData);
+
+        } catch (error) {
+            setError(
+                error instanceof Error ? error.message : "Failed to load weather data."
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const fetchWeatherByLocation = async () => {
         if (!navigator.geolocation) {
             setError("Geolocation is not supported by your browser.");
@@ -42,21 +68,8 @@ export const useWeather = () => {
 
         navigator.geolocation.getCurrentPosition(
             async (position) => {
-                try {
-                    const { latitude, longitude } = position.coords;
-                    const weatherData = await getCurrentWeatherByCoordinates(latitude, longitude);
-                    setCurrentWeather(weatherData);
-
-                    const forecastData = await getWeatherForecast(weatherData.name);
-                    setForecast(forecastData);
-
-                } catch (error) {
-                    setError(
-                        error instanceof Error ? error.message : "Failed to load weather data."
-                    );
-                } finally {
-                    setLoading(false);
-                }
+                const { latitude, longitude } = position.coords;
+                fetchWeatherByCoordinates(latitude, longitude);
             }, (error) => {
                 setError("Unable to get your location: " + error.message);
                 setLoading(false);
@@ -79,6 +92,7 @@ export const useWeather = () => {
         error,
         unit,
         fetchWeatherByCity,
+        fetchWeatherByCoordinates,
         fetchWeatherByLocation,
         toggleUnit
     }
