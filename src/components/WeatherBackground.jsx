@@ -14,10 +14,9 @@ const WeatherBackground = ({ weatherCondition }) => {
     }, []);
 
     const getThemeAndOptions = (condition) => {
-        // Fallback to clear if no data
-        const id = condition?.weather?.[0]?.id || 800;
+        const id = condition?.weather?.[0]?.id || 801;
 
-        let themeClasses = 'from-sky-500 via-blue-400 to-cyan-300';
+        let themeClasses = 'from-gray-500 via-slate-600 to-gray-700';
         let options = null;
 
         // Thunderstorm (id 200 - 299)
@@ -82,11 +81,11 @@ const WeatherBackground = ({ weatherCondition }) => {
             options = {
                 particles: {
                     color: { value: "#ffffff" },
-                    number: { value: 30, density: { enable: true, area: 800 } },
-                    opacity: { value: { min: 0.05, max: 0.15 } },
+                    number: { value: 18, density: { enable: true, area: 900 } },
+                    opacity: { value: { min: 0.04, max: 0.1 } },
                     shape: { type: "circle" },
-                    size: { value: { min: 50, max: 150 } },
-                    move: { enable: true, speed: 0.5, direction: "right", straight: false, outModes: "out" }
+                    size: { value: { min: 24, max: 72 } },
+                    move: { enable: true, speed: 0.35, direction: "right", straight: false, outModes: "out" }
                 }
             };
         }
@@ -108,17 +107,18 @@ const WeatherBackground = ({ weatherCondition }) => {
         return { themeClasses, options };
     };
 
+    const weatherId = weatherCondition?.weather?.[0]?.id || 801;
     const { themeClasses, options } = useMemo(() => getThemeAndOptions(weatherCondition), [weatherCondition]);
 
     return (
         <div className="absolute inset-0 z-0">
             {/* Frosted Glass Color Overlay */}
-            <div className={`absolute inset-0 transition-colors duration-1000 ease-in-out bg-linear-to-br opacity-80 backdrop-blur-2xl ${themeClasses}`} />
+            <div className={`absolute inset-0 bg-linear-to-br opacity-80 backdrop-blur-2xl transition-colors duration-1000 ease-in-out ${themeClasses}`} />
 
             {/* Particles on top of the frosted glass */}
             {init && options && (
                 <Particles
-                    key={weatherCondition?.weather?.[0]?.id || 800}
+                    key={weatherId}
                     id="tsparticles"
                     options={{
                         ...options,

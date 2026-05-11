@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { MapPin, Search, X } from "lucide-react";
+import { LocateFixed, Search, X } from "lucide-react";
 import { searchCities } from "../services/weather-api";
 
 function SearchBar({ onSearch, onLocationSearch, isLoading }) {
@@ -96,12 +96,16 @@ function SearchBar({ onSearch, onLocationSearch, isLoading }) {
 
                     <button
                         type="button"
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white 
+                        className="group/location absolute right-4 top-1/2 transform -translate-y-1/2 text-white/50 hover:text-white 
                         transition-all p-1 rounded-full hover:bg-white/10"
                         onClick={onLocationSearch}
                         disabled={isLoading}
+                        aria-label="Current location weather"
                     >
-                        <MapPin className="w-5 h-5" />
+                        <LocateFixed className="w-5 h-5" />
+                        <span className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 whitespace-nowrap rounded-lg border border-white/15 bg-slate-950/80 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-xl backdrop-blur-md transition-opacity duration-200 group-hover/location:opacity-100 group-focus-visible/location:opacity-100">
+                            Current location weather
+                        </span>
                     </button>
                 </div>
             </form>

@@ -11,6 +11,9 @@ import { useWeather } from "./hooks/useWeather"
 
 function App() {
   const { currentWeather, forecast, loading, error, unit, fetchWeatherByCity, fetchWeatherByLocation, toggleUnit } = useWeather();
+  const hasWeather = Boolean(currentWeather);
+  const showInitialLoading = loading && !hasWeather;
+  const showWeather = hasWeather && !error;
 
   const handleRetry = () => {
     if (currentWeather) {
@@ -52,10 +55,10 @@ function App() {
           </div>
 
           {/* Main Content */}
-          <div className="space-y-8">
+          <div className="min-h-[520px] space-y-8">
             {/* Render Loading Spinner */}
-            {loading && (
-              <div className="flex justify-center">
+            {showInitialLoading && (
+              <div className="flex justify-center content-fade-in">
                 <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20">
                   <LoadingSpinner />
                   <p className="text-white/80 text-center mt-4 font-medium animate-pulse">
@@ -67,14 +70,19 @@ function App() {
 
             {/* Render Error Message */}
             {error && !loading && (
-              <div className="max-w-2xl mx-auto">
+              <div className="max-w-2xl mx-auto content-fade-in">
                 <ErrorMessage message={error} onRetry={handleRetry} />
               </div>
             )}
 
             {/* Render Weather Data*/}
-            {currentWeather && !loading && (
-              <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+            {showWeather && (
+              <div className="relative grid grid-cols-1 xl:grid-cols-3 gap-8 content-fade-in">
+                {loading && (
+                  <div className="pointer-events-none absolute right-4 top-4 z-20 rounded-full border border-white/15 bg-slate-950/35 px-4 py-2 text-sm font-medium text-white/80 shadow-lg backdrop-blur-xl">
+                    Updating...
+                  </div>
+                )}
                 <div className="xl:col-span-2">
                   <WeatherCard weather={currentWeather} forecast={forecast} unit={unit} />
                 </div>
