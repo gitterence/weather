@@ -1,7 +1,11 @@
 @import "tailwindcss";
 
+:root {
+    --app-shell-bg: #334155;
+}
+
 html {
-    background: #0f172a;
+    background: var(--app-shell-bg);
     color-scheme: dark;
     scrollbar-gutter: stable;
 }
@@ -9,7 +13,7 @@ html {
 body,
 #root {
     min-height: 100%;
-    background: #0f172a;
+    background: var(--app-shell-bg);
 }
 
 .app-title {

@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
+import { useAppShellColor } from "../hooks/useAppShellColor";
 import { isWeatherDaytime } from "../utils/weather-utils";
 
 const WEATHER_THEMES = {
@@ -9,11 +10,19 @@ const WEATHER_THEMES = {
             day: "from-slate-700 via-gray-800 to-slate-900",
             night: "from-slate-950 via-gray-950 to-black",
         },
+        shellColors: {
+            day: "#1f2937",
+            night: "#020617",
+        },
     },
     drizzle: {
         themeClasses: {
             day: "from-slate-400 via-slate-500 to-slate-600",
             night: "from-slate-900 via-slate-950 to-gray-950",
+        },
+        shellColors: {
+            day: "#64748b",
+            night: "#0f172a",
         },
     },
     rain: {
@@ -21,11 +30,19 @@ const WEATHER_THEMES = {
             day: "from-slate-500 via-slate-600 to-slate-700",
             night: "from-zinc-950 via-slate-950 to-black",
         },
+        shellColors: {
+            day: "#475569",
+            night: "#09090b",
+        },
     },
     snow: {
         themeClasses: {
             day: "from-zinc-200 via-slate-300 to-slate-500",
             night: "from-slate-800 via-slate-900 to-blue-950",
+        },
+        shellColors: {
+            day: "#94a3b8",
+            night: "#1e293b",
         },
     },
     atmosphere: {
@@ -33,17 +50,29 @@ const WEATHER_THEMES = {
             day: "from-stone-300 via-gray-400 to-slate-500",
             night: "from-stone-800 via-slate-900 to-gray-950",
         },
+        shellColors: {
+            day: "#78716c",
+            night: "#1c1917",
+        },
     },
     clouds: {
         themeClasses: {
             day: "from-slate-300 via-slate-400 to-gray-500",
             night: "from-slate-900 via-slate-800 to-gray-950",
         },
+        shellColors: {
+            day: "#94a3b8",
+            night: "#1e293b",
+        },
     },
     clear: {
         themeClasses: {
             day: "from-slate-300 via-sky-300 to-gray-500",
             night: "from-indigo-950 via-slate-950 to-sky-950",
+        },
+        shellColors: {
+            day: "#7dd3fc",
+            night: "#334155",
         },
         overlayOpacityClasses: {
             day: "opacity-[0.94]",
@@ -146,6 +175,7 @@ const getBackgroundConfig = (condition) => {
         weatherId,
         timeOfDay,
         themeClasses: theme.themeClasses[timeOfDay],
+        shellColor: theme.shellColors[timeOfDay],
         overlayOpacityClass: theme.overlayOpacityClasses?.[timeOfDay] || DEFAULT_OVERLAY_OPACITY_CLASS,
         particleOptions: PARTICLE_OPTIONS[weatherType],
     };
@@ -167,8 +197,11 @@ const WeatherBackground = ({ weatherCondition }) => {
         themeClasses,
         particleOptions,
         timeOfDay,
+        shellColor,
         overlayOpacityClass,
     } = useMemo(() => getBackgroundConfig(weatherCondition), [weatherCondition]);
+
+    useAppShellColor(shellColor);
 
     return (
         <div className="absolute inset-0 z-0">
