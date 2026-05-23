@@ -1,19 +1,15 @@
 @import "tailwindcss";
 
-:root {
-    --app-shell-bg: #334155;
-}
-
 html {
-    background: var(--app-shell-bg);
+    background: #0f172a;
     color-scheme: dark;
-    scrollbar-gutter: stable;
+    overflow-y: scroll;
 }
 
 body,
 #root {
     min-height: 100%;
-    background: var(--app-shell-bg);
+    background: #0f172a;
 }
 
 .app-title {
