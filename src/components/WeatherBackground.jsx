@@ -71,7 +71,7 @@ const WEATHER_THEMES = {
             night: "from-indigo-950 via-slate-950 to-sky-950",
         },
         shellColors: {
-            day: "#94a3b8",
+            day: "#7ea6bf",
             night: "#334155",
         },
         overlayOpacityClasses: {
