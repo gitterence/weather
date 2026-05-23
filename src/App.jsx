@@ -29,7 +29,7 @@ function App() {
     if (currentWeather) {
       fetchWeatherByCity(currentWeather.name)
     } else {
-      fetchWeatherByCity("Cupertino")
+      fetchWeatherByCity("San Francisco")
     }
 
   };

@@ -1,7 +1,15 @@
 @import "tailwindcss";
 
 html {
+    background: #0f172a;
+    color-scheme: dark;
     scrollbar-gutter: stable;
+}
+
+body,
+#root {
+    min-height: 100%;
+    background: #0f172a;
 }
 
 .app-title {
