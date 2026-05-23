@@ -79,6 +79,24 @@ export const getLocalTimeAsSeconds = (timezoneOffsetSeconds) => {
     return cityTime / 1000;
 }
 
+export const isWeatherDaytime = (weather) => {
+    const timestamp = weather?.dt;
+    const sunrise = weather?.sys?.sunrise;
+    const sunset = weather?.sys?.sunset;
+
+    if (Number.isFinite(timestamp) && Number.isFinite(sunrise) && Number.isFinite(sunset)) {
+        return timestamp >= sunrise && timestamp < sunset;
+    }
+
+    if (Number.isFinite(weather?.timezone)) {
+        const cityTimeMs = Date.now() + weather.timezone * 1000;
+        const cityHour = new Date(cityTimeMs).getUTCHours();
+        return cityHour >= 6 && cityHour < 18;
+    }
+
+    return true;
+}
+
 export const formatSpeed = (speed, unit) => {
     if (unit === "km/h") {
         return Math.round(speed * 3.6);
