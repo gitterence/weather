@@ -67,11 +67,11 @@ const WEATHER_THEMES = {
     },
     clear: {
         themeClasses: {
-            day: "from-slate-300 via-sky-300 to-gray-500",
+            day: "from-[#74a5cc] via-[#6a97bd] to-[#5a83a6]",
             night: "from-indigo-950 via-slate-950 to-sky-950",
         },
         shellColors: {
-            day: "#7ea6bf",
+            day: "#74a5cc", // muted sky blue
             night: "#334155",
         },
         overlayOpacityClasses: {
@@ -173,6 +173,7 @@ const getBackgroundConfig = (condition) => {
 
     return {
         weatherId,
+        weatherType,
         timeOfDay,
         themeClasses: theme.themeClasses[timeOfDay],
         shellColor: theme.shellColors[timeOfDay],
@@ -194,6 +195,7 @@ const WeatherBackground = ({ weatherCondition }) => {
 
     const {
         weatherId,
+        weatherType,
         themeClasses,
         particleOptions,
         timeOfDay,
@@ -207,6 +209,19 @@ const WeatherBackground = ({ weatherCondition }) => {
         <div className="absolute inset-0 z-0">
             {/* Frosted Glass Color Overlay */}
             <div className={`absolute inset-0 bg-linear-to-br ${overlayOpacityClass} backdrop-blur-2xl transition-colors duration-1000 ease-in-out ${themeClasses}`} />
+
+            {/* Sun Glow and Halo for clear days */}
+            {weatherType === "clear" && timeOfDay === "day" && (
+                <div className="absolute top-0 left-0 w-[40rem] h-[40rem] pointer-events-none -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                    {/* Inner bright sun core */}
+                    <div className="absolute w-56 h-56 rounded-full bg-white/40 blur-xl opacity-60" />
+                    {/* Soft glowing middle ring */}
+                    <div className="absolute w-80 h-80 rounded-full bg-white/20 blur-2xl opacity-40" />
+                    {/* Outer sharp halo ring (光圈) */}
+                    <div className="absolute w-[34rem] h-[34rem] rounded-full border-[4px] border-white/20 blur-[4px] mix-blend-overlay" />
+                    <div className="absolute w-[34rem] h-[34rem] rounded-full border-[1px] border-white/10 blur-[1px]" />
+                </div>
+            )}
 
             {/* Particles on top of the frosted glass */}
             {particlesReady && particleOptions && (
